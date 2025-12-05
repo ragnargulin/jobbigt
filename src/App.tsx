@@ -1,18 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { auth, db } from './firebase/config'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [firebaseStatus, setFirebaseStatus] = useState<string>('Checking...')
+
+  useEffect(() => {
+    // Check if Firebase is initialized
+    try {
+      const authCheck = auth.app.name ? '✅ Auth' : '❌ Auth'
+      const dbCheck = db.app.name ? '✅ Firestore' : '❌ Firestore'
+      setFirebaseStatus(`Firebase Connected: ${authCheck} | ${dbCheck}`)
+    } catch (error) {
+      setFirebaseStatus(`❌ Firebase Error: ${error}`)
+    }
+  }, [])
 
   return (
     <>
       <h1>Jobbigt</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <p style={{ color: firebaseStatus.includes('✅') ? '#4ade80' : '#f87171' }}>
+          {firebaseStatus}
+        </p>
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Firebase is configured with project: <strong>jobbigt-ba673</strong>
         </p>
       </div>
     </>
