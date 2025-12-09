@@ -1,7 +1,14 @@
+import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { JobApplication, JobStatus } from '../types/job';
+import { KanbanBoard } from './KanbanBoard';
+import { JobForm } from './JobForm';
 
 export function Dashboard() {
   const { currentUser, logout } = useAuth();
+  const [jobs, setJobs] = useState<JobApplication[]>([]);
+  const [showForm, setShowForm] = useState(false);
+  const [editingJob, setEditingJob] = useState<JobApplication | undefined>();
 
   async function handleLogout() {
     try {
@@ -11,43 +18,84 @@ export function Dashboard() {
     }
   }
 
+  const handleAddJob = (jobData: Omit<JobApplication, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const newJob: JobApplication = {
+      ...jobData,
+      id: crypto.randomUUID(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    setJobs(prev => [...prev, newJob]);
+    setShowForm(false);
+  };
+
+  const handleEditJob = (jobData: Omit<JobApplication, 'id' | 'createdAt' | 'updatedAt'>) => {
+    if (editingJob) {
+      setJobs(prev => prev.map(job =>
+        job.id === editingJob.id
+          ? { ...jobData, id: job.id, createdAt: job.createdAt, updatedAt: new Date() }
+          : job
+      ));
+      setEditingJob(undefined);
+      setShowForm(false);
+    }
+  };
+
+  const handleDeleteJob = (jobId: string) => {
+    if (confirm('Är du säker på att du vill ta bort denna ansökan?')) {
+      setJobs(prev => prev.filter(job => job.id !== jobId));
+    }
+  };
+
+  const handleJobMove = (jobId: string, newStatus: JobStatus) => {
+    setJobs(prev => prev.map(job =>
+      job.id === jobId
+        ? { ...job, status: newStatus, updatedAt: new Date() }
+        : job
+    ));
+  };
+
+  const openEditForm = (job: JobApplication) => {
+    setEditingJob(job);
+    setShowForm(true);
+  };
+
+  const closeForm = () => {
+    setShowForm(false);
+    setEditingJob(undefined);
+  };
+
   return (
-    <div className="w-full max-w-2xl mx-auto p-6">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-        <h2 className="text-3xl font-bold mb-6">Welcome!</h2>
-
-        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6 mb-6 space-y-3">
-          <div>
-            <span className="font-semibold text-gray-700 dark:text-gray-300">Email: </span>
-            <span className="text-gray-900 dark:text-gray-100">
-              {currentUser?.email || 'Anonymous User'}
-            </span>
-          </div>
-          <div>
-            <span className="font-semibold text-gray-700 dark:text-gray-300">User ID: </span>
-            <span className="text-gray-900 dark:text-gray-100 font-mono text-sm">
-              {currentUser?.uid}
-            </span>
-          </div>
-          <div>
-            <span className="font-semibold text-gray-700 dark:text-gray-300">Account Type: </span>
-            <span className={`inline-block px-2 py-1 rounded text-sm font-medium ${
-              currentUser?.isAnonymous
-                ? 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
-                : 'bg-blue-200 dark:bg-blue-700 text-blue-800 dark:text-blue-200'
-            }`}>
-              {currentUser?.isAnonymous ? 'Guest' : 'Registered'}
-            </span>
-          </div>
+    <div className="p-4">
+      <div className="flex justify-between mb-4">
+        <div>
+          <h2 className="text-xl font-bold">Mina jobbansökningar</h2>
+          <p>{currentUser?.email || 'Gästanvändare'}</p>
         </div>
-
-        <button
-          onClick={handleLogout}
-          className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-        >
-          Logout
-        </button>
+        <div className="flex gap-2">
+          <button onClick={() => setShowForm(true)} className="border p-2">
+            Ny ansökan
+          </button>
+          <button onClick={handleLogout} className="border p-2">
+            Logga ut
+          </button>
+        </div>
       </div>
+
+      <KanbanBoard
+        jobs={jobs}
+        onJobMove={handleJobMove}
+        onJobEdit={openEditForm}
+        onJobDelete={handleDeleteJob}
+      />
+
+      {showForm && (
+        <JobForm
+          job={editingJob}
+          onSubmit={editingJob ? handleEditJob : handleAddJob}
+          onCancel={closeForm}
+        />
+      )}
     </div>
   );
 }

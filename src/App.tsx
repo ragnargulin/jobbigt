@@ -9,16 +9,12 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen w-full">
-        <header className="bg-white dark:bg-gray-800 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 py-4">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Jobbigt
-            </h1>
-          </div>
+      <div>
+        <header className="border-b p-4">
+          <h1 className="text-2xl font-bold">Jobbigt</h1>
         </header>
 
-        <main className="py-8">
+        <main>
           <Routes>
             <Route
               path="/login"
