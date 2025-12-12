@@ -1,14 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { JobApplication, JobStatus } from '../types/job';
 import { KanbanBoard } from './KanbanBoard';
 import { JobForm } from './JobForm';
+import { addJob, updateJob, deleteJob as deleteJobFromDB, updateJobStatus, subscribeToUserJobs } from '../services/jobService';
 
 export function Dashboard() {
   const { currentUser, logout } = useAuth();
   const [jobs, setJobs] = useState<JobApplication[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingJob, setEditingJob] = useState<JobApplication | undefined>();
+
+  useEffect(() => {
+    if (!currentUser) return;
+
+    const unsubscribe = subscribeToUserJobs(currentUser.uid, (updatedJobs) => {
+      setJobs(updatedJobs);
+    });
+
+    return () => unsubscribe();
+  }, [currentUser]);
 
   async function handleLogout() {
     try {
@@ -18,41 +29,45 @@ export function Dashboard() {
     }
   }
 
-  const handleAddJob = (jobData: Omit<JobApplication, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const newJob: JobApplication = {
-      ...jobData,
-      id: crypto.randomUUID(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    setJobs(prev => [...prev, newJob]);
-    setShowForm(false);
+  const handleAddJob = async (jobData: Omit<JobApplication, 'id' | 'createdAt' | 'updatedAt'>) => {
+    if (!currentUser) return;
+
+    try {
+      await addJob(currentUser.uid, jobData);
+      setShowForm(false);
+    } catch (error) {
+      console.error('Failed to add job:', error);
+    }
   };
 
-  const handleEditJob = (jobData: Omit<JobApplication, 'id' | 'createdAt' | 'updatedAt'>) => {
-    if (editingJob) {
-      setJobs(prev => prev.map(job =>
-        job.id === editingJob.id
-          ? { ...jobData, id: job.id, createdAt: job.createdAt, updatedAt: new Date() }
-          : job
-      ));
+  const handleEditJob = async (jobData: Omit<JobApplication, 'id' | 'createdAt' | 'updatedAt'>) => {
+    if (!editingJob) return;
+
+    try {
+      await updateJob(editingJob.id, jobData);
       setEditingJob(undefined);
       setShowForm(false);
+    } catch (error) {
+      console.error('Failed to update job:', error);
     }
   };
 
-  const handleDeleteJob = (jobId: string) => {
-    if (confirm('Är du säker på att du vill ta bort denna ansökan?')) {
-      setJobs(prev => prev.filter(job => job.id !== jobId));
+  const handleDeleteJob = async (jobId: string) => {
+    if (!confirm('Är du säker på att du vill ta bort denna ansökan?')) return;
+
+    try {
+      await deleteJobFromDB(jobId);
+    } catch (error) {
+      console.error('Failed to delete job:', error);
     }
   };
 
-  const handleJobMove = (jobId: string, newStatus: JobStatus) => {
-    setJobs(prev => prev.map(job =>
-      job.id === jobId
-        ? { ...job, status: newStatus, updatedAt: new Date() }
-        : job
-    ));
+  const handleJobMove = async (jobId: string, newStatus: JobStatus) => {
+    try {
+      await updateJobStatus(jobId, newStatus);
+    } catch (error) {
+      console.error('Failed to update job status:', error);
+    }
   };
 
   const openEditForm = (job: JobApplication) => {
