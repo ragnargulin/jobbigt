@@ -4,9 +4,13 @@ import { JobApplication, JobStatus } from '../types/job';
 import { KanbanBoard } from './KanbanBoard';
 import { JobForm } from './JobForm';
 import { addJob, updateJob, deleteJob as deleteJobFromDB, updateJobStatus, subscribeToUserJobs } from '../services/jobService';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { toggleDarkMode } from '../store/themeSlice';
 
 export function Dashboard() {
   const { currentUser, logout } = useAuth();
+  const dispatch = useAppDispatch();
+  const darkMode = useAppSelector((state) => state.theme.darkMode);
   const [jobs, setJobs] = useState<JobApplication[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingJob, setEditingJob] = useState<JobApplication | undefined>();
@@ -81,17 +85,29 @@ export function Dashboard() {
   };
 
   return (
-    <div className="p-4">
+    <div className={`min-h-screen p-4 ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       <div className="flex justify-between mb-4">
         <div>
           <h2 className="text-xl font-bold">Mina jobbansökningar</h2>
           <p>{currentUser?.email || 'Gästanvändare'}</p>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => setShowForm(true)} className="border p-2">
+          <button
+            onClick={() => dispatch(toggleDarkMode())}
+            className={`border p-2 ${darkMode ? 'border-gray-600 hover:bg-gray-800' : 'border-gray-300 hover:bg-gray-100'}`}
+          >
+            {darkMode ? '☀️ Ljus' : '🌙 Mörk'}
+          </button>
+          <button
+            onClick={() => setShowForm(true)}
+            className={`border p-2 ${darkMode ? 'border-gray-600 hover:bg-gray-800' : 'border-gray-300 hover:bg-gray-100'}`}
+          >
             Ny ansökan
           </button>
-          <button onClick={handleLogout} className="border p-2">
+          <button
+            onClick={handleLogout}
+            className={`border p-2 ${darkMode ? 'border-gray-600 hover:bg-gray-800' : 'border-gray-300 hover:bg-gray-100'}`}
+          >
             Logga ut
           </button>
         </div>

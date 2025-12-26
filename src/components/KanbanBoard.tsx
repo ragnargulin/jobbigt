@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { JobApplication, Column, JobStatus } from '../types/job';
 import { JobCard } from './JobCard';
+import { useAppSelector } from '../store/hooks';
 
 const COLUMNS: Column[] = [
   { id: 'interesting', title: 'Intressant', color: '' },
@@ -18,6 +19,7 @@ interface KanbanBoardProps {
 }
 
 export function KanbanBoard({ jobs, onJobMove, onJobEdit, onJobDelete }: KanbanBoardProps) {
+  const darkMode = useAppSelector((state) => state.theme.darkMode);
   const [draggedJob, setDraggedJob] = useState<string | null>(null);
 
   const handleDragStart = (jobId: string) => {
@@ -47,7 +49,7 @@ export function KanbanBoard({ jobs, onJobMove, onJobEdit, onJobDelete }: KanbanB
         return (
           <div
             key={column.id}
-            className="w-64 border p-3"
+            className={`w-64 border p-3 ${darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-300 bg-gray-50'}`}
             onDragOver={handleDragOver}
             onDrop={() => handleDrop(column.id)}
           >
