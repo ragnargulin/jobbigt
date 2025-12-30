@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { JobApplication, JobStatus } from '../types/job';
+import { useAppSelector } from '../store/hooks';
 
 interface JobFormProps {
   job?: JobApplication;
@@ -8,6 +9,7 @@ interface JobFormProps {
 }
 
 export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
+  const darkMode = useAppSelector((state) => state.theme.darkMode);
   const [formData, setFormData] = useState({
     company: job?.company || '',
     position: job?.position || '',
@@ -33,7 +35,7 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white p-6 max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div className={`p-6 max-w-2xl w-full max-h-screen overflow-y-auto ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
         <h2 className="text-xl font-bold mb-4">
           {job ? 'Redigera ansökan' : 'Ny ansökan'}
         </h2>
@@ -41,70 +43,70 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
-              <label className="block mb-1">Företag *</label>
+              <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Företag *</label>
               <input
                 type="text"
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
                 required
-                className="w-full border p-2"
+                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
             <div>
-              <label className="block mb-1">Tjänst *</label>
+              <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Tjänst *</label>
               <input
                 type="text"
                 name="position"
                 value={formData.position}
                 onChange={handleChange}
                 required
-                className="w-full border p-2"
+                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
             <div>
-              <label className="block mb-1">Plats</label>
+              <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Plats</label>
               <input
                 type="text"
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                className="w-full border p-2"
+                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
             <div>
-              <label className="block mb-1">Lön</label>
+              <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Lön</label>
               <input
                 type="text"
                 name="salary"
                 value={formData.salary}
                 onChange={handleChange}
-                className="w-full border p-2"
+                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
             <div>
-              <label className="block mb-1">Ansökningsdatum</label>
+              <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Ansökningsdatum</label>
               <input
                 type="date"
                 name="applicationDate"
                 value={formData.applicationDate}
                 onChange={handleChange}
-                className="w-full border p-2"
+                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
             <div>
-              <label className="block mb-1">Status *</label>
+              <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Status *</label>
               <select
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
                 required
-                className="w-full border p-2"
+                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               >
                 <option value="interesting">Intressant</option>
                 <option value="applied">Sökt</option>
@@ -115,55 +117,55 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
             </div>
 
             <div>
-              <label className="block mb-1">Kontaktperson</label>
+              <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Kontaktperson</label>
               <input
                 type="text"
                 name="contactPerson"
                 value={formData.contactPerson}
                 onChange={handleChange}
-                className="w-full border p-2"
+                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
             <div>
-              <label className="block mb-1">Kontakt e-post</label>
+              <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Kontakt e-post</label>
               <input
                 type="email"
                 name="contactEmail"
                 value={formData.contactEmail}
                 onChange={handleChange}
-                className="w-full border p-2"
+                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
           </div>
 
           <div className="mb-4">
-            <label className="block mb-1">Beskrivning</label>
+            <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Beskrivning</label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
               rows={3}
-              className="w-full border p-2"
+              className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
             />
           </div>
 
           <div className="mb-4">
-            <label className="block mb-1">Anteckningar</label>
+            <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Anteckningar</label>
             <textarea
               name="notes"
               value={formData.notes}
               onChange={handleChange}
               rows={3}
-              className="w-full border p-2"
+              className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
             />
           </div>
 
           <div className="flex gap-3">
-            <button type="submit" className="border p-2 flex-1">
+            <button type="submit" className={`border p-2 flex-1 ${darkMode ? 'border-gray-600 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-100'}`}>
               {job ? 'Spara' : 'Lägg till'}
             </button>
-            <button type="button" onClick={onCancel} className="border p-2 flex-1">
+            <button type="button" onClick={onCancel} className={`border p-2 flex-1 ${darkMode ? 'border-gray-600 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-100'}`}>
               Avbryt
             </button>
           </div>
