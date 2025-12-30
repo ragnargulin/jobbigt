@@ -29,8 +29,7 @@ export function Dashboard() {
   async function handleLogout() {
     try {
       await logout();
-    } catch (error) {
-      console.error('Failed to logout:', error);
+    } catch {
     }
   }
 
@@ -38,13 +37,10 @@ export function Dashboard() {
     if (!currentUser) return;
 
     try {
-      console.log('Adding job with data:', jobData);
       await addJob(currentUser.uid, jobData);
-      console.log('Job added successfully');
       setShowForm(false);
       toast.success('Jobb tillagt!');
     } catch (error) {
-      console.error('Failed to add job:', error);
       toast.error(`Kunde inte lägga till jobb: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
@@ -57,8 +53,7 @@ export function Dashboard() {
       setEditingJob(undefined);
       setShowForm(false);
       toast.success('Jobb uppdaterat!');
-    } catch (error) {
-      console.error('Failed to update job:', error);
+    } catch {
       toast.error('Kunde inte uppdatera jobb');
     }
   };
@@ -69,8 +64,7 @@ export function Dashboard() {
     try {
       await deleteJobFromDB(jobId);
       toast.success('Jobb borttaget!');
-    } catch (error) {
-      console.error('Failed to delete job:', error);
+    } catch {
       toast.error('Kunde inte ta bort jobb');
     }
   };
@@ -78,8 +72,7 @@ export function Dashboard() {
   const handleJobMove = async (jobId: string, newStatus: JobStatus) => {
     try {
       await updateJobStatus(jobId, newStatus);
-    } catch (error) {
-      console.error('Failed to update job status:', error);
+    } catch {
     }
   };
 
