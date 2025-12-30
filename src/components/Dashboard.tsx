@@ -90,27 +90,37 @@ export function Dashboard() {
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       {/* Header */}
       <div className={`border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-        <div className="max-w-[1232px] mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 flex items-center justify-center">
-                <span className="text-2xl">💼</span>
+        <div className="max-w-[1232px] mx-auto px-4 lg:px-6 py-4">
+          <div className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-center">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 flex items-center justify-center rounded-[14px] bg-gradient-to-b from-purple-600 to-purple-700 shadow-md">
+                  <span className="text-2xl">💼</span>
+                </div>
+                <div>
+                  <h1 className="text-2xl lg:text-3xl font-bold">Jobbigt</h1>
+                  <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    <span className="hidden lg:inline">{currentUser?.email || 'Gästanvändare'}</span>
+                    <span className="lg:hidden">Organisera din jobbjaktsprocess</span>
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-3xl font-bold">Jobbigt</h1>
-                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {currentUser?.email || 'Gästanvändare'}
-                </p>
-              </div>
+              {/* Mobile menu button */}
+              <button
+                className="lg:hidden w-10 h-10 flex items-center justify-center rounded"
+                onClick={handleLogout}
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
             </div>
-            <div className="flex gap-2">
+
+            {/* Desktop buttons */}
+            <div className="hidden lg:flex gap-2">
               <button
                 onClick={() => setShowForm(true)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded border ${
-                  darkMode
-                    ? 'bg-blue-600 border-blue-600 text-white hover:bg-blue-700'
-                    : 'bg-blue-600 border-blue-600 text-white hover:bg-blue-700'
-                }`}
+                className="flex items-center gap-2 px-5 py-2.5 rounded bg-blue-600 text-white hover:bg-blue-700"
               >
                 <span>+</span>
                 <span>Ny ansökan</span>
@@ -136,12 +146,23 @@ export function Dashboard() {
                 🚪
               </button>
             </div>
+
+            {/* Mobile new application button */}
+            <button
+              onClick={() => setShowForm(true)}
+              className="lg:hidden w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-[10px] bg-purple-600 text-white shadow-md hover:bg-purple-700"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              <span className="font-medium">Ny ansökan</span>
+            </button>
           </div>
         </div>
       </div>
 
       {/* Kanban Board */}
-      <div className="max-w-[1232px] mx-auto px-4 py-8">
+      <div className="max-w-[1232px] mx-auto px-5 lg:px-4 py-6 lg:py-8">
         <KanbanBoard
           jobs={jobs}
           onJobMove={handleJobMove}
@@ -152,13 +173,14 @@ export function Dashboard() {
 
       {/* Footer */}
       <div className={`border-t mt-auto ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-        <div className="max-w-[1232px] mx-auto px-4 py-6">
-          <div className="flex items-center gap-4">
+        <div className="max-w-[1232px] mx-auto px-6 lg:px-4 py-6">
+          <div className="flex flex-col lg:flex-row items-center gap-3 lg:gap-4">
             <span className="text-2xl">💼</span>
-            <div>
+            <div className="text-center lg:text-left">
               <h3 className="font-bold">Jobbigt</h3>
               <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                Håll koll på dina ansökningar
+                <span className="hidden lg:inline">Håll koll på dina ansökningar</span>
+                <span className="lg:hidden">Copyright 2026</span>
               </p>
             </div>
           </div>

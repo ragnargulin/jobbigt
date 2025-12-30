@@ -59,22 +59,22 @@ export function KanbanBoard({ jobs, onJobMove, onJobEdit, onJobDelete }: KanbanB
   };
 
   return (
-    <div className="flex gap-4 pb-4 items-start">
+    <div className="flex flex-col lg:flex-row gap-3 lg:gap-4 pb-4 lg:items-start">
       {COLUMNS.map((column) => {
         const columnJobs = getJobsByStatus(column.id);
 
         return (
           <div
             key={column.id}
-            className={`flex-1 min-w-0 border-2 rounded-[14px] p-0.5 shadow-md ${
+            className={`w-full lg:flex-1 lg:min-w-0 border-2 rounded-[14px] p-0.5 shadow-md ${
               darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-300'
             }`}
             onDragOver={handleDragOver}
             onDrop={() => handleDrop(column.id)}
           >
             {/* Column Header */}
-            <div className="pt-4 pb-0 px-4">
-              <div className="flex items-center justify-between mb-2">
+            <div className="pt-4 lg:pt-4 pb-1 px-4">
+              <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full"
@@ -86,23 +86,23 @@ export function KanbanBoard({ jobs, onJobMove, onJobEdit, onJobDelete }: KanbanB
                 </div>
                 <button
                   onClick={() => toggleColumn(column.id)}
-                  className={`w-7 h-7 flex items-center justify-center rounded transition-transform ${
+                  className={`w-8 h-8 flex items-center justify-center rounded transition-transform ${
                     darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'
                   } ${isColumnExpanded(column.id) ? '' : 'rotate-180'}`}
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                   </svg>
                 </button>
               </div>
-              <p className={`text-base mb-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-base mb-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 {columnJobs.length} {columnJobs.length === 1 ? 'ansökan' : 'ansökningar'}
               </p>
             </div>
 
             {/* Column Content */}
             {isColumnExpanded(column.id) && (
-              <div className="p-3 pt-1">
+              <div className="px-4 pb-2.5 pt-5">
                 {columnJobs.map((job) => (
                   <div
                     key={job.id}
