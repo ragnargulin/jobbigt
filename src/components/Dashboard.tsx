@@ -230,15 +230,14 @@ export function Dashboard() {
       </div>
 
       {/* Footer */}
-      <div className={`border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-        <div className="max-w-[1232px] mx-auto px-6 lg:px-4 py-6">
-          <div className="flex flex-col lg:flex-row items-center gap-3 lg:gap-4">
-            <span className="text-2xl">💼</span>
-            <div className="text-center lg:text-left">
-              <h3 className="font-bold">Jobbigt</h3>
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                <span className="hidden lg:inline">Håll koll på dina ansökningar</span>
-                <span className="lg:hidden">Copyright 2026</span>
+      <div className={`border-t ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'}`}>
+        <div className="max-w-[1232px] mx-auto px-6 lg:px-4 pt-6 pb-6">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">😪</span>
+            <div>
+              <h3 className={`font-bold text-lg ${darkMode ? 'text-white' : 'text-gray-900'}`}>Jobbigt</h3>
+              <p className={`text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                Copyright {new Date().getFullYear()}
               </p>
             </div>
           </div>
