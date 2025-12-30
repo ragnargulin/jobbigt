@@ -34,9 +34,9 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className={`p-6 max-w-2xl w-full max-h-screen overflow-y-auto ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-        <h2 className="text-xl font-bold mb-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className={`rounded-lg p-6 max-w-2xl w-full max-h-screen overflow-y-auto shadow-xl ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
+        <h2 className="text-2xl font-bold mb-6">
           {job ? 'Redigera ansökan' : 'Ny ansökan'}
         </h2>
 
@@ -50,7 +50,7 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
                 value={formData.company}
                 onChange={handleChange}
                 required
-                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
+                className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
@@ -62,7 +62,7 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
                 value={formData.position}
                 onChange={handleChange}
                 required
-                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
+                className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
@@ -73,7 +73,7 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
+                className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
@@ -84,7 +84,7 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
                 name="salary"
                 value={formData.salary}
                 onChange={handleChange}
-                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
+                className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
@@ -95,7 +95,7 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
                 name="applicationDate"
                 value={formData.applicationDate}
                 onChange={handleChange}
-                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
+                className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
@@ -106,7 +106,7 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
                 value={formData.status}
                 onChange={handleChange}
                 required
-                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
+                className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               >
                 <option value="interesting">Intressant</option>
                 <option value="applied">Sökt</option>
@@ -123,7 +123,7 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
                 name="contactPerson"
                 value={formData.contactPerson}
                 onChange={handleChange}
-                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
+                className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
 
@@ -134,7 +134,7 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
                 name="contactEmail"
                 value={formData.contactEmail}
                 onChange={handleChange}
-                className={`w-full border p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
+                className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
             </div>
           </div>
@@ -162,10 +162,21 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
           </div>
 
           <div className="flex gap-3">
-            <button type="submit" className={`border p-2 flex-1 ${darkMode ? 'border-gray-600 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-100'}`}>
+            <button
+              type="submit"
+              className="flex-1 px-5 py-2.5 rounded bg-blue-600 text-white hover:bg-blue-700 font-medium"
+            >
               {job ? 'Spara' : 'Lägg till'}
             </button>
-            <button type="button" onClick={onCancel} className={`border p-2 flex-1 ${darkMode ? 'border-gray-600 hover:bg-gray-700' : 'border-gray-300 hover:bg-gray-100'}`}>
+            <button
+              type="button"
+              onClick={onCancel}
+              className={`flex-1 px-5 py-2.5 rounded border font-medium ${
+                darkMode
+                  ? 'border-gray-600 hover:bg-gray-700'
+                  : 'border-gray-300 hover:bg-gray-100'
+              }`}
+            >
               Avbryt
             </button>
           </div>

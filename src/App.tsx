@@ -12,30 +12,24 @@ function App() {
     <BrowserRouter>
       <div>
         <Toaster position="top-right" />
-        <header className="border-b p-4">
-          <h1 className="text-2xl font-bold">Jobbigt</h1>
-        </header>
-
-        <main>
-          <Routes>
-            <Route
-              path="/login"
-              element={currentUser ? <Navigate to="/dashboard" replace /> : <Auth />}
-            />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/"
-              element={<Navigate to={currentUser ? "/dashboard" : "/login"} replace />}
-            />
-          </Routes>
-        </main>
+        <Routes>
+          <Route
+            path="/login"
+            element={currentUser ? <Navigate to="/dashboard" replace /> : <Auth />}
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/"
+            element={<Navigate to={currentUser ? "/dashboard" : "/login"} replace />}
+          />
+        </Routes>
       </div>
     </BrowserRouter>
   )
