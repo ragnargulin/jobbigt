@@ -101,7 +101,7 @@ export function Dashboard() {
                 <div>
                   <h1 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Jobbigt</h1>
                   <p className={`text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Organisera din jobbjaktsprocess
+                    Är vad det är
                   </p>
                 </div>
               </div>
