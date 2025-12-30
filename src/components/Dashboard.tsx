@@ -15,7 +15,7 @@ export function Dashboard() {
   const [jobs, setJobs] = useState<JobApplication[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editingJob, setEditingJob] = useState<JobApplication | undefined>();
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -105,68 +105,81 @@ export function Dashboard() {
                   </p>
                 </div>
               </div>
-              {/* Mobile menu button */}
-              <button
-                className={`lg:hidden w-10 h-10 flex items-center justify-center rounded-[10px] ${
-                  darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
-                }`}
-                onClick={() => setShowMobileMenu(!showMobileMenu)}
-              >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
+              {/* Mobile profile button */}
+              <div className="lg:hidden relative">
+                <button
+                  onClick={() => setShowProfileMenu(!showProfileMenu)}
+                  className={`w-10 h-10 flex items-center justify-center rounded-[10px] ${
+                    darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </button>
+
+                {/* Mobile Profile dropdown */}
+                {showProfileMenu && (
+                  <>
+                    {/* Backdrop */}
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setShowProfileMenu(false)}
+                    />
+                    {/* Menu */}
+                    <div className={`absolute right-0 top-12 w-64 rounded-lg shadow-lg z-50 overflow-hidden ${
+                      darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
+                    }`}>
+                      <div className="p-2">
+                        <div className={`px-4 py-3 border-b ${
+                          darkMode ? 'border-gray-700' : 'border-gray-200'
+                        }`}>
+                          <p className={`text-sm font-medium ${
+                            darkMode ? 'text-gray-300' : 'text-gray-700'
+                          }`}>Inloggad som</p>
+                          <p className={`text-sm truncate ${
+                            darkMode ? 'text-gray-400' : 'text-gray-600'
+                          }`}>{currentUser?.email || 'Gäst'}</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            dispatch(toggleDarkMode());
+                            setShowProfileMenu(false);
+                          }}
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mt-1 ${
+                            darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                          }`}
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            {darkMode ? (
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                            ) : (
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                            )}
+                          </svg>
+                          <span className="font-medium">{darkMode ? 'Ljust läge' : 'Mörkt läge'}</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setShowProfileMenu(false);
+                          }}
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${
+                            darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                          }`}
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                          <span className="font-medium">Logga ut</span>
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
-            {/* Mobile menu dropdown */}
-            {showMobileMenu && (
-              <>
-                {/* Backdrop */}
-                <div
-                  className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
-                  onClick={() => setShowMobileMenu(false)}
-                />
-                {/* Menu */}
-                <div className={`lg:hidden absolute right-4 top-20 w-64 rounded-lg shadow-lg z-50 overflow-hidden ${
-                  darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-                }`}>
-                  <div className="p-2">
-                    <button
-                      onClick={() => {
-                        dispatch(toggleDarkMode());
-                        setShowMobileMenu(false);
-                      }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${
-                        darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-                      }`}
-                    >
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        {darkMode ? (
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                        ) : (
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                        )}
-                      </svg>
-                      <span className="font-medium">{darkMode ? 'Ljust läge' : 'Mörkt läge'}</span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setShowMobileMenu(false);
-                      }}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${
-                        darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-                      }`}
-                    >
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                      <span className="font-medium">Logga ut</span>
-                    </button>
-                  </div>
-                </div>
-              </>
-            )}
 
             {/* Desktop buttons */}
             <div className="hidden lg:flex gap-4 items-center">
@@ -179,30 +192,78 @@ export function Dashboard() {
                 </svg>
                 <span>Ny ansökan</span>
               </button>
-              <button
-                onClick={() => dispatch(toggleDarkMode())}
-                className={`w-10 h-10 flex items-center justify-center rounded-[10px] ${
-                  darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
-                }`}
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  {darkMode ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  )}
-                </svg>
-              </button>
-              <button
-                onClick={handleLogout}
-                className={`w-10 h-10 flex items-center justify-center rounded-[10px] ${
-                  darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
-                }`}
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setShowProfileMenu(!showProfileMenu)}
+                  className={`w-10 h-10 flex items-center justify-center rounded-[10px] ${
+                    darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </button>
+
+                {/* Profile dropdown */}
+                {showProfileMenu && (
+                  <>
+                    {/* Backdrop */}
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setShowProfileMenu(false)}
+                    />
+                    {/* Menu */}
+                    <div className={`absolute right-0 top-12 w-64 rounded-lg shadow-lg z-50 overflow-hidden ${
+                      darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
+                    }`}>
+                      <div className="p-2">
+                        <div className={`px-4 py-3 border-b ${
+                          darkMode ? 'border-gray-700' : 'border-gray-200'
+                        }`}>
+                          <p className={`text-sm font-medium ${
+                            darkMode ? 'text-gray-300' : 'text-gray-700'
+                          }`}>Inloggad som</p>
+                          <p className={`text-sm truncate ${
+                            darkMode ? 'text-gray-400' : 'text-gray-600'
+                          }`}>{currentUser?.email || 'Gäst'}</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            dispatch(toggleDarkMode());
+                            setShowProfileMenu(false);
+                          }}
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mt-1 ${
+                            darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                          }`}
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            {darkMode ? (
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                            ) : (
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                            )}
+                          </svg>
+                          <span className="font-medium">{darkMode ? 'Ljust läge' : 'Mörkt läge'}</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setShowProfileMenu(false);
+                          }}
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${
+                            darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                          }`}
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>
+                          <span className="font-medium">Logga ut</span>
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
             {/* Mobile new application button */}
