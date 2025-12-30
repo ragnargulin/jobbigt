@@ -1,7 +1,13 @@
 import { useState } from 'react';
-import { JobApplication, Column, JobStatus } from '../types/job';
+import { JobApplication, JobStatus } from '../types/job';
 import { JobCard } from './JobCard';
 import { useAppSelector } from '../store/hooks';
+
+interface Column {
+  id: JobStatus;
+  title: string;
+  color: string;
+}
 
 const COLUMNS: Column[] = [
   { id: 'interesting', title: 'Intressant', color: '#2b7fff' },

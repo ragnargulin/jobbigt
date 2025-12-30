@@ -14,9 +14,3 @@ export interface JobApplication {
   createdAt: Date;
   updatedAt: Date;
 }
-
-export interface Column {
-  id: JobStatus;
-  title: string;
-  color: string;
-}
