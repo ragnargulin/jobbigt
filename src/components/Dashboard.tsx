@@ -87,7 +87,7 @@ export function Dashboard() {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
+    <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       {/* Header */}
       <div className={`border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
         <div className="max-w-[1232px] mx-auto px-4 lg:px-6 py-4">
@@ -162,7 +162,7 @@ export function Dashboard() {
       </div>
 
       {/* Kanban Board */}
-      <div className="max-w-[1232px] mx-auto px-5 lg:px-4 py-6 lg:py-8">
+      <div className="flex-1 max-w-[1232px] w-full mx-auto px-5 lg:px-4 py-6 lg:py-8">
         <KanbanBoard
           jobs={jobs}
           onJobMove={handleJobMove}
@@ -172,7 +172,7 @@ export function Dashboard() {
       </div>
 
       {/* Footer */}
-      <div className={`border-t mt-auto ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+      <div className={`border-t ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
         <div className="max-w-[1232px] mx-auto px-6 lg:px-4 py-6">
           <div className="flex flex-col lg:flex-row items-center gap-3 lg:gap-4">
             <span className="text-2xl">💼</span>

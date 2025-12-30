@@ -5,9 +5,9 @@ import { useAppSelector } from '../store/hooks';
 
 const COLUMNS: Column[] = [
   { id: 'interesting', title: 'Intressant', color: '#2b7fff' },
-  { id: 'applied', title: 'Sökt', color: '#10b981' },
+  { id: 'applied', title: 'Sökt', color: '#8b5cf6' },
   { id: 'interview', title: 'Intervju', color: '#f59e0b' },
-  { id: 'offer', title: 'Erbjudande', color: '#8b5cf6' },
+  { id: 'offer', title: 'Erbjudande', color: '#10b981' },
   { id: 'rejected', title: 'Nekad', color: '#ef4444' },
 ];
 
