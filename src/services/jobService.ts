@@ -35,13 +35,20 @@ export const addJob = async (
   userId: string,
   jobData: Omit<JobApplication, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<string> => {
-  const docRef = await addDoc(collection(db, JOBS_COLLECTION), {
-    ...jobData,
-    userId,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
-  return docRef.id;
+  console.log('addJob service called with userId:', userId);
+  try {
+    const docRef = await addDoc(collection(db, JOBS_COLLECTION), {
+      ...jobData,
+      userId,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
+    console.log('Firestore addDoc completed, docRef.id:', docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error('Error in addJob service:', error);
+    throw error;
+  }
 };
 
 export const updateJob = async (

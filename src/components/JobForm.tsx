@@ -4,7 +4,7 @@ import { useAppSelector } from '../store/hooks';
 
 interface JobFormProps {
   job?: JobApplication;
-  onSubmit: (job: Omit<JobApplication, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  onSubmit: (job: Omit<JobApplication, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
   onCancel: () => void;
 }
 
@@ -23,9 +23,9 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
     notes: job?.notes || '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    await onSubmit(formData);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

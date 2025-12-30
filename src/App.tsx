@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 import { useAuth } from './contexts/AuthContext'
 import { Auth } from './components/Auth'
 import { Dashboard } from './components/Dashboard'
@@ -10,6 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
+        <Toaster position="top-right" />
         <header className="border-b p-4">
           <h1 className="text-2xl font-bold">Jobbigt</h1>
         </header>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
 import { JobApplication, JobStatus } from '../types/job';
 import { KanbanBoard } from './KanbanBoard';
@@ -37,10 +38,14 @@ export function Dashboard() {
     if (!currentUser) return;
 
     try {
+      console.log('Adding job with data:', jobData);
       await addJob(currentUser.uid, jobData);
+      console.log('Job added successfully');
       setShowForm(false);
+      toast.success('Jobb tillagt!');
     } catch (error) {
       console.error('Failed to add job:', error);
+      toast.error(`Kunde inte lägga till jobb: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -51,8 +56,10 @@ export function Dashboard() {
       await updateJob(editingJob.id, jobData);
       setEditingJob(undefined);
       setShowForm(false);
+      toast.success('Jobb uppdaterat!');
     } catch (error) {
       console.error('Failed to update job:', error);
+      toast.error('Kunde inte uppdatera jobb');
     }
   };
 
@@ -61,8 +68,10 @@ export function Dashboard() {
 
     try {
       await deleteJobFromDB(jobId);
+      toast.success('Jobb borttaget!');
     } catch (error) {
       console.error('Failed to delete job:', error);
+      toast.error('Kunde inte ta bort jobb');
     }
   };
 
