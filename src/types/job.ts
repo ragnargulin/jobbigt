@@ -5,7 +5,6 @@ export interface JobApplication {
   company: string;
   position: string;
   location?: string;
-  salary?: string;
   description?: string;
   applicationDate?: string;
   contactPerson?: string;

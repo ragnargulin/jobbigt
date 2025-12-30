@@ -20,7 +20,6 @@ export interface JobData {
   company: string;
   position: string;
   location?: string;
-  salary?: string;
   description?: string;
   applicationDate?: string;
   contactPerson?: string;
@@ -88,7 +87,6 @@ export const subscribeToUserJobs = (
         company: data.company,
         position: data.position,
         location: data.location,
-        salary: data.salary,
         description: data.description,
         applicationDate: data.applicationDate,
         contactPerson: data.contactPerson,

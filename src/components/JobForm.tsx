@@ -14,7 +14,6 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
     company: job?.company || '',
     position: job?.position || '',
     location: job?.location || '',
-    salary: job?.salary || '',
     description: job?.description || '',
     applicationDate: job?.applicationDate || '',
     contactPerson: job?.contactPerson || '',
@@ -72,17 +71,6 @@ export function JobForm({ job, onSubmit, onCancel }: JobFormProps) {
                 type="text"
                 name="location"
                 value={formData.location}
-                onChange={handleChange}
-                className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
-              />
-            </div>
-
-            <div>
-              <label className={`block mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>Lön</label>
-              <input
-                type="text"
-                name="salary"
-                value={formData.salary}
                 onChange={handleChange}
                 className={`w-full border rounded p-2 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
               />
